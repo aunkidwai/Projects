@@ -41,6 +41,16 @@ class StartPage(tk.Frame):
         tk.Frame.configure(self, bg = "white")
 
         #title
+
+        global n1
+        global n2
+        n1 = ""
+        n2 = ""
+        global var1
+        global var2
+        var1 = ""
+        var2 = ""
+
         label = tk.Label(self, text = "Tic Tac Toe", font = "Times 30 bold", bg = "white", padx = 20, pady = 50)
         label.pack()
 
@@ -55,14 +65,19 @@ class StartPage(tk.Frame):
         player2.pack()
 
         def play():
+            global n1
+            global n2
             n1 = player1.get()
             n2 = player2.get()
-            var1.set(n1)
-            var2.set(n2)
-            controller.show_frame(GamePage)
+            player1.delete(first=0, last=50)
+            player2.delete(first=0, last=50)
+            if n1 == n2 == "":
+                print("Enter the names:")
+            else:
+                var1.set(n1)
+                var2.set(n2)
+                controller.show_frame(GamePage)
 
-        global var1
-        global var2
         var1 = tk.StringVar()
         var2 = tk.StringVar()
 
@@ -279,8 +294,13 @@ class ResultPage(tk.Frame):
         result = tk.Label(self, textvariable = draws, font="Times 30 bold", bg="white", padx=20, pady=50)
         result.pack()
 
-        button2 = tk.Button(self, text="Exit", command=quit)
-        button2.pack()
+        def restart():
+            controller.show_frame(StartPage)
+
+        button2 = tk.Button(self, text="Play Again", command = restart)
+        button2.pack(pady = 10)
+        button3 = tk.Button(self, text="Exit", command=quit)
+        button3.pack(pady = 10)
 
 app = TicTacToeApp()
 app.geometry("500x600")
